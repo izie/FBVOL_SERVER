@@ -16,6 +16,7 @@ public class Character {
     private int y;
     private String name;
     private String id;
+
     ObjectMapper om = new ObjectMapper();
 
     public int getY() {
