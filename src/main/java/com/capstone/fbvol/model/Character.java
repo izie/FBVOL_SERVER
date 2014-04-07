@@ -16,9 +16,23 @@ public class Character {
     private int y;
     private String name;
     private String id;
+    private int win;
+    private int lose;
+    //private picture location;
 
     ObjectMapper om = new ObjectMapper();
-
+    public int getWin() {
+        return win;
+    }
+    public void setWin(int win) {
+        this.win = win;
+    }
+    public int getLose() {
+        return lose;
+    }
+    public void setLose(int lose) {
+        this.lose = lose;
+    }
     public int getY() {
         return y;
     }
@@ -60,6 +74,8 @@ public class Character {
             this.id = m.get("ID");
             this.x = Integer.parseInt(m.get("X"));
             this.y = Integer.parseInt(m.get("Y"));
+            this.lose = Integer.parseInt(m.get("LOSE"));
+            this.win = Integer.parseInt(m.get("WIN"));
 
             } catch (JsonParseException e) {
                     // TODO Auto-generated catch block

@@ -1,7 +1,7 @@
 package com.capstone.fbvol.controller;
 
-import com.capstone.fbvol.model.*;
 import com.capstone.fbvol.model.Character;
+import com.capstone.fbvol.model.Msg;
 import com.capstone.fbvol.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,20 +94,20 @@ public class CharacterController {
 
         return users;
     }
-
+    /*
     @RequestMapping(value = "printUser", method = RequestMethod.GET)
     public String printWelcome2(ModelMap model) {
         model.addAttribute("users", users);
         return "printUser";
     }
-
-    @RequestMapping(value = "printUser", method = RequestMethod.POST)
+    */
+    @RequestMapping(value = "printUser", method = {RequestMethod.GET,RequestMethod.POST})
     public String printWelcome3(ModelMap model) {
         model.addAttribute("users", users);
         return "printUser";
     }
 
-    @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)
+    @RequestMapping(value = "Move/{Query}", method =  RequestMethod.GET)
     public @ResponseBody Msg setCharacterXYInJSON(@PathVariable String Query) {
         int flag = 0;
         Character tchr = new Character();
