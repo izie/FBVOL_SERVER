@@ -1,8 +1,8 @@
 package com.capstone.fbvol.controller;
 
+import com.capstone.fbvol.model.*;
 import com.capstone.fbvol.model.Character;
-import com.capstone.fbvol.model.Msg;
-import com.capstone.fbvol.service.CharacterService;
+import com.capstone.fbvol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,15 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CharacterController {
     ArrayList<Character> users = new ArrayList<Character>();
 
-    private final CharacterService characterService;
-
-    private final Map<DeferredResult<List<Character>>, Integer> userRequests =
-            new ConcurrentHashMap<DeferredResult<List<Character>>, Integer>();
-
-    @Autowired
-    public CharacterController(CharacterService characterService) {
-        this.characterService = characterService;
-    }
 
     @RequestMapping(value = "Init", method = RequestMethod.GET)
     public @ResponseBody Msg setDefault() {
@@ -49,65 +40,32 @@ public class CharacterController {
         return msg;
     }
 
-    @RequestMapping(method=RequestMethod.GET)
-    @ResponseBody
-    public DeferredResult<List<Character>> getMessages(@RequestParam int messageIndex) {
-
-        final DeferredResult<List<Character>> deferredResult = new DeferredResult<List<Character>>(null, Collections.emptyList());
-        this.userRequests.put(deferredResult, messageIndex);
-
-        deferredResult.onCompletion(new Runnable() {
-            @Override
-            public void run() {
-                userRequests.remove(deferredResult);
-            }
-        });
-
-        List<Character> messages = this.characterService.getUsers(messageIndex);
-        if (!messages.isEmpty()) {
-            deferredResult.setResult(messages);
-        }
-
-        return deferredResult;
-    }
-
-    @RequestMapping(method=RequestMethod.POST)
-    @ResponseBody
-    public void postUsers(@RequestParam String x, @RequestParam String y, @RequestParam String id) {
-        Character chr = new Character();
-        chr.setX(Integer.parseInt(x));
-        chr.setY(Integer.parseInt(y));
-        chr.setId(id);
-        this.characterService.setUsers(chr);
-
-        // Update all chat requests as part of the POST request
-        // See Redis branch for a more sophisticated, non-blocking approach
-
-        for (Map.Entry<DeferredResult<List<Character>>, Integer> entry : this.userRequests.entrySet()) {
-            List<Character> messages = this.characterService.getUsers(entry.getValue());
-            entry.getKey().setResult(messages);
-        }
-    }
 
     @RequestMapping(value = "getUser", method = RequestMethod.GET)
     public @ResponseBody ArrayList<Character> getUser() {
 
         return users;
     }
-    /*
+
     @RequestMapping(value = "printUser", method = RequestMethod.GET)
     public String printWelcome2(ModelMap model) {
         model.addAttribute("users", users);
         return "printUser";
     }
-    */
-    @RequestMapping(value = "printUser", method = {RequestMethod.GET,RequestMethod.POST})
+
+    @RequestMapping(value = "printUser", method = RequestMethod.POST)
     public String printWelcome3(ModelMap model) {
         model.addAttribute("users", users);
         return "printUser";
     }
 
-    @RequestMapping(value = "Move/{Query}", method =  RequestMethod.GET)
+    @RequestMapping(value = "Game", method = {RequestMethod.GET,RequestMethod.POST})
+    public String game(ModelMap model) {
+        //model.addAttribute("users", users);
+        return "Game";
+    }
+
+    @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)
     public @ResponseBody Msg setCharacterXYInJSON(@PathVariable String Query) {
         int flag = 0;
         Character tchr = new Character();
