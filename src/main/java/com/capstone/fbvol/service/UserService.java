@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
  * Created by changmatthew on 2014. 3. 31..
  */
 
-public interface CharacterService {
+public interface UserService {
     List<Character> getUsers(int idx);
     void setUsers(Character user);
 }

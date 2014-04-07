@@ -1,24 +1,18 @@
 package com.capstone.fbvol.service;
 
-import com.capstone.fbvol.model.*;
 import com.capstone.fbvol.model.Character;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by changmatthew on 2014. 3. 31..
  */
 @Repository
-public class CharacterServiceImpl implements CharacterService {
+public class UserServiceImpl implements UserService {
 
     private final List<Character> users = new CopyOnWriteArrayList<Character>();
 
