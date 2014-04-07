@@ -11,8 +11,8 @@
 <canvas id='canvas' width='600' height='400'>
     Canvas not supported
 </canvas>
-<script src="http:////code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http:////code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script>
 
     var i = 0;
@@ -34,7 +34,7 @@
     }
 
     $.callAjax = function() {
-        var requestUrl = '/Character/getUser';
+        var requestUrl = '/FBVOL_SERVER/Character/getUser';
 
         $.ajax({
             url:requestUrl,
