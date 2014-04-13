@@ -34,7 +34,7 @@
     }
 
     $.callAjax = function() {
-        var requestUrl = '/FBVOL_SERVER/Character/getUser';
+        var requestUrl = '/Character/getUser';
 
         $.ajax({
             url:requestUrl,

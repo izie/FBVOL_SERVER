@@ -16,8 +16,35 @@ public class User {
     private int y;
     private String name;
     private String id;
+    private int total_playtime;
+    private int record_win;
+    private int record_lose;
 
     ObjectMapper om = new ObjectMapper();
+
+    public int getRecord_lose() {
+        return record_lose;
+    }
+
+    public void setRecord_lose(int record_lose) {
+        this.record_lose = record_lose;
+    }
+
+    public int getTotal_playtime() {
+        return total_playtime;
+    }
+
+    public void setTotal_playtime(int total_playtime) {
+        this.total_playtime = total_playtime;
+    }
+
+    public int getRecord_win() {
+        return record_win;
+    }
+
+    public void setRecord_win(int record_win) {
+        this.record_win = record_win;
+    }
 
     public int getY() {
         return y;
