@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Time: 오후 2:49
  * To change this template use File | Settings | File Templates.
  */
-public class Playing_room {
+public class Room {
 
     private Character master;
     private Character rival;
@@ -25,9 +25,9 @@ public class Playing_room {
     private String room_title;
     private boolean isLock;
     private String password;
-    private int runningtime;
-    private int master_score;
-    private int guest_score;
+    private int runningTime;
+    private boolean roomState; // waiting or playing
+
 
     ObjectMapper om = new ObjectMapper();
 
@@ -89,7 +89,13 @@ public class Playing_room {
             e.printStackTrace();
         }
     }
+    public boolean isRoomState() {
+        return roomState;
+    }
 
+    public void setRoomState(boolean roomState) {
+        this.roomState = roomState;
+    }
     public Character getRival() {
         return rival;
     }
@@ -145,30 +151,12 @@ public class Playing_room {
         this.password = password;
     }
 
-    public int getPlaytime() {
-        return runningtime;
+    public int getRunningTime() {
+        return runningTime;
     }
 
-    public void setPlaytime(int runningtime) {
-        this.runningtime = runningtime;
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
-
-    public int getMaster_score() {
-        return master_score;
-    }
-
-    public void setMaster_score(int master_score) {
-        this.master_score = master_score;
-    }
-
-    public int getGuest_score() {
-        return guest_score;
-    }
-
-    public void setGuest_score(int guest_score) {
-        this.guest_score = guest_score;
-    }
-
-
 
 }

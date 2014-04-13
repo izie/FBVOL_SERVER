@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * Time: 오후 9:15
  * To change this template use File | Settings | File Templates.
  */
-public class Waitng_room {
-    private ArrayList<Playing_room> play_rooms;
+public class Robby {
+    private ArrayList<Room> play_rooms;
     private ArrayList<Character> friends_activities;
     private Character my_info;
 
