@@ -129,7 +129,7 @@ public class UserController {
 
     @RequestMapping(value = "getUser", method = RequestMethod.GET)
     public @ResponseBody List<User> getUser() {
-
+        //logger.info("UserController - getUser");
         return users;
     }
 }

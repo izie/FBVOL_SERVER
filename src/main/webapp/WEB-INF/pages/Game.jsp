@@ -29,8 +29,8 @@
     var kimages = {};
 
     var profile_pic = {
-        prugio: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/c35.35.443.443/s160x160/484064_384552564940063_232438685_n.jpg',
-        izie: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p160x160/10256603_833148846699423_3550347983526187_n.jpg'
+        dkjo91: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/c35.35.443.443/s160x160/484064_384552564940063_232438685_n.jpg',
+        tkdxo0624: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p160x160/10256603_833148846699423_3550347983526187_n.jpg'
     };
 
     var stage = null;
@@ -121,7 +121,7 @@
     }
 
     $.callAjax = function() {
-        var requestUrl = '${url}/Character/getUser';
+        var requestUrl = '${url}/User/getUser';
 
         $.ajax({
             url:requestUrl,
@@ -191,9 +191,15 @@
     };
 
     $.initAnim = function() {
-
+        var firstTime = 0;
+        $.callAjax();
         anim = new Kinetic.Animation(function(frame){
-            $.callAjax();
+            //console.log((frame.time / 1000) - firstTime);
+            if((frame.time / 100) - firstTime >= 1){
+                //console.log("check");
+                firstTime = frame.time / 100;
+                $.callAjax();
+            }
             if (ballMode == 'move'){
 
                 var tmod = (frame.timeDiff) * 0.005;
