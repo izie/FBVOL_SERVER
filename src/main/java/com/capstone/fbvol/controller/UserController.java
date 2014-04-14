@@ -35,8 +35,7 @@ public class UserController {
     public @ResponseBody Msg setDefault() {
         Msg msg = new Msg("1000","Done");
         List<User> user3 = userService.getUsers();
-        logger.debug("user 1's toke : "+user3.get(0).getToken());
-
+        System.out.println("user 1's toke : " + user3.get(0).getToken());
         Character user = new Character();
 
         user.setX(100);
