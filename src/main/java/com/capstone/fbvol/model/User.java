@@ -16,34 +16,44 @@ public class User {
     private int y;
     private String name;
     private String id;
-    private int total_playtime;
-    private int record_win;
-    private int record_lose;
+    private String email;
+    private int total;
+    private int win;
+    private int lose;
+    private String token;
 
     ObjectMapper om = new ObjectMapper();
 
-    public int getRecord_lose() {
-        return record_lose;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRecord_lose(int record_lose) {
-        this.record_lose = record_lose;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getTotal_playtime() {
-        return total_playtime;
+    public int getTotal() {
+        return total;
     }
 
-    public void setTotal_playtime(int total_playtime) {
-        this.total_playtime = total_playtime;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public int getRecord_win() {
-        return record_win;
+    public int getWin() {
+        return win;
     }
 
-    public void setRecord_win(int record_win) {
-        this.record_win = record_win;
+    public void setWin(int win) {
+        this.win = win;
+    }
+
+    public int getLose() {
+        return lose;
+    }
+
+    public void setLose(int lose) {
+        this.lose = lose;
     }
 
     public int getY() {
@@ -121,4 +131,11 @@ public class User {
         }
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

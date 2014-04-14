@@ -19,6 +19,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-
+    <import resource="applicationContext-mybatis.xml" />
 
 </beans>

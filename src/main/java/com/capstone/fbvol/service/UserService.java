@@ -14,4 +14,5 @@ import java.util.concurrent.Future;
 public interface UserService {
     List<Character> getUsers(int idx);
     void setUsers(Character user);
+    public User getUserInfo(Entity param);
 }
