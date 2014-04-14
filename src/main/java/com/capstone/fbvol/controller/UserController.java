@@ -5,6 +5,7 @@ package com.capstone.fbvol.controller;
  * Description :
  *
  */
+
 import com.capstone.fbvol.model.Msg;
 import com.capstone.fbvol.model.User;
 import com.capstone.fbvol.service.UserService;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
@@ -113,8 +117,8 @@ public class UserController {
         for(User usr : users){
             if(usr.getId().equals(tuser.getId())){
                 flag = 1;
-                usr.setX(tuser.getX());
-                usr.setY(tuser.getY());
+                usr.setX(usr.getX() + tuser.getX());
+                usr.setY(usr.getY() + tuser.getY());
             }
         }
 
@@ -124,7 +128,25 @@ public class UserController {
 
         return msg;
     }
+    @RequestMapping(value = "Move/Shoot/{Query}", method = RequestMethod.GET)  // query: ID,SHOOT
+    public @ResponseBody Msg shootingBallJSON(@PathVariable String Query) {
+        int flag = 0;
+        User tuser = new User();
+        Msg msg = new Msg("1000","Done");
+        tuser.setShootingDataFromJson(Query);
+        for(User usr : users){
+            if(usr.getId().equals(tuser.getId())){
+                flag = 1;
+                usr.setShoot(tuser.getShoot());
+            }
+        }
 
+        if(flag == 0){
+            msg.setMsg("Error!!");
+        }
+
+        return msg;
+    }
     @RequestMapping(value = "getUser", method = RequestMethod.GET)
     public @ResponseBody List<User> getUser() {
         //logger.info("UserController - getUser");

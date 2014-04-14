@@ -21,6 +21,7 @@ public class User {
     private int win;
     private int lose;
     private String token;
+    private int shoot; // 0:평소 1:슛
 
     ObjectMapper om = new ObjectMapper();
 
@@ -88,6 +89,14 @@ public class User {
         this.id = id;
     }
 
+    public int getShoot() {
+        return shoot;
+    }
+
+    public void setShoot(int shoot) {
+        this.shoot = shoot;
+    }
+
     public void setFromJSON2(String jsonStr) {
         HashMap<String, String> m;
         try {
@@ -130,7 +139,25 @@ public class User {
             e.printStackTrace();
         }
     }
+    public void setShootingDataFromJson(String jsonStr){
+        HashMap<String, String> m;
+        try {
+            m = om.readValue(jsonStr, new TypeReference<HashMap<String, String>>(){});
 
+            this.id = m.get("ID");
+            this.shoot = Integer.parseInt(m.get("SHOOT"));
+
+        } catch (JsonParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     public String getToken() {
         return token;
     }
