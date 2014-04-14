@@ -24,8 +24,8 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="configLocation" value="/config/mybatis/config.xml"/>
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="mapper/**/*.xml" />
-        <property name="typeAliasesPackage" value="com.izect.fiamm.domain" />
+        <property name="mapperLocations" value="/mapper/**/*.xml" />
+        <property name="typeAliasesPackage" value="com.capstone.fbvol.model" />
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -43,7 +43,7 @@
     </bean>
 
 	<bean id="UserInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="com.izect.fiamm.mapper.UserInfoMapper"/>
+        <property name="mapperInterface" value="com.capstone.fbvol.mapper.UserInfoMapper"/>
   		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

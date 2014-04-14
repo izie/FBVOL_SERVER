@@ -2,7 +2,10 @@ package com.capstone.fbvol.controller;
 
 import com.capstone.fbvol.model.Character;
 import com.capstone.fbvol.model.Msg;
+import com.capstone.fbvol.model.User;
 import com.capstone.fbvol.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Controller
 @RequestMapping(value = "/User/")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     ArrayList<Character> users = new ArrayList<Character>();
 
     private final UserService userService;
@@ -30,6 +34,9 @@ public class UserController {
     @RequestMapping(value = "Init", method = RequestMethod.GET)
     public @ResponseBody Msg setDefault() {
         Msg msg = new Msg("1000","Done");
+        List<User> user3 = userService.getUsers();
+        logger.debug("user 1's toke : "+user3.get(0).getToken());
+
         Character user = new Character();
 
         user.setX(100);

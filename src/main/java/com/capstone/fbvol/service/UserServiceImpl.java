@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -18,7 +19,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by changmatthew on 2014. 3. 31..
  */
-@Repository
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -31,9 +31,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInfo(Entity param) {
         logger.info("LoginService - getUserInfo()");
-        User temp = userInfoMapper.selectUserOne(param);
+        //User temp = userInfoMapper.selectUserOne(param);
         return userInfoMapper.selectUserOne(param);
     }
+
+    @Override
+    public List<User> getUsers() {
+        return userInfoMapper.getList();
+    }
+
     public List<Character> getUsers(int idx) {
         if(this.users.isEmpty()){
             return Collections.emptyList();
