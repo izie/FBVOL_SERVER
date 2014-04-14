@@ -8,5 +8,6 @@ package com.capstone.fbvol.model;
  * To change this template use File | Settings | File Templates.
  */
 public class PB_Packet {
-
+    private String Token;
+    private String ddd;
 }
