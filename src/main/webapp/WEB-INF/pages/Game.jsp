@@ -195,9 +195,9 @@
         $.callAjax();
         anim = new Kinetic.Animation(function(frame){
             //console.log((frame.time / 1000) - firstTime);
-            if((frame.time / 100) - firstTime >= 1){
+            if((frame.time / 35) - firstTime >= 1){
                 //console.log("check");
-                firstTime = frame.time / 100;
+                firstTime = frame.time / 35;
                 $.callAjax();
             }
             if (ballMode == 'move'){
