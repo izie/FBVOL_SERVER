@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -60,15 +61,15 @@ public class CharacterController {
     }
 
     @RequestMapping(value = "Game", method = {RequestMethod.GET,RequestMethod.POST})
-    public String game(ModelMap model) {
-        //model.addAttribute("users", users);
+    public String game(ModelMap model, HttpServletRequest req) {
+        String url = req.getRequestURI();
+        System.out.print("url : "+url);
+        if(url.indexOf("1.209.21.74") != -1){
+            model.addAttribute("url", "/FBVOL_SERVER");
+        }else{
+            model.addAttribute("url", "");
+        }
         return "Game";
-    }
-
-    @RequestMapping(value = "Game2", method = {RequestMethod.GET,RequestMethod.POST})
-    public String game2(ModelMap model) {
-        //model.addAttribute("users", users);
-        return "FBVOL_FBCLIENT";
     }
 
     @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)

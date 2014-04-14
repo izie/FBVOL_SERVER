@@ -15,8 +15,8 @@
 <body>
 <div id="container"></div>
 
-<script type="text/javascript" src="/FBVOL_SERVER/resources/js/jquery-2.1.0.min.js" th:src="@{/resources/js/jquery-2.1.0.min.js}"></script>
-<script type="text/javascript" src="/FBVOL_SERVER/resources/js/kinetic-v5.1.0.js" th:src="@{/resources/js/kinetic-v5.1.0.js"></script>
+<script type="text/javascript" src="${url}/resources/js/jquery-2.1.0.min.js" th:src="@{/resources/js/jquery-2.1.0.min.js}"></script>
+<script type="text/javascript" src="${url}/resources/js/kinetic-v5.1.0.js" th:src="@{/resources/js/kinetic-v5.1.0.js"></script>
 <script defer="defer">
 
     var i = 0;
@@ -121,7 +121,7 @@
     }
 
     $.callAjax = function() {
-        var requestUrl = '/Character/getUser';
+        var requestUrl = '${url}/Character/getUser';
 
         $.ajax({
             url:requestUrl,
