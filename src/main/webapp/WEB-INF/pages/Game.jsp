@@ -148,7 +148,8 @@
                             kimages[numUser] = new Kinetic.Image({
                                 image: images[data[numUser].id],
                                 x: data[numUser].x,
-                                y: data[numUser].y
+                                y: data[numUser].y,
+                                draggable: true
                             });
 
                             kimages[numUser].setOffset(kimages[numUser].getWidth() / 2, kimages[numUser].getHeight() / 2);
@@ -212,7 +213,13 @@
                 speed_x += grav_x * tmod;
                 speed_y += grav_y * tmod;
 
-                if(ball.getY() > gHeight)       ballMode = 'stop';
+                if(ball.getY() > gHeight){
+                    //ballMode = 'stop';
+                    ball.setX(stage.getWidth() / 2-100);
+                    ball.setY(0);
+                    speed_x = 0;
+                    speed_y = 0;
+                }
 
                 $.isCollision(ball.getX(),ball.getY());
             }
@@ -234,7 +241,7 @@
 
             if((x2 <= x1 && x1 <= x3) && (y2 <= y1 && y1 <= y3)){
                 debugTxt.setText("collision!"+speed_x);
-                speed_y = -10;
+                speed_y = -50;
             }else{
 
                 debugTxt.setText("no collision");
