@@ -38,10 +38,10 @@ public class UserController {
 
         // Test Data
         users.get(0).setX(100);
-        users.get(0).setY(100);
+        users.get(0).setY(400);
 
-        users.get(1).setX(300);
-        users.get(1).setY(100);
+        users.get(1).setX(600);
+        users.get(1).setY(400);
     }
 
     @RequestMapping(value = "Init", method = RequestMethod.GET)

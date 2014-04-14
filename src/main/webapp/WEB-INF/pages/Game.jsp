@@ -36,7 +36,11 @@
     var stage = null;
 
     var layer = null;
+    // Ball
     var ball = null;
+
+    //Fence
+    var fence = null;
 
     var ballMode = 'move';
 
@@ -88,12 +92,23 @@
     $.initRes = function() {
         // Ball
         ball = new Kinetic.Circle({
-            x: stage.getWidth() / 2-100,
+            x: 200,
             y: 0,
             radius: 30,
             fill: 'red',
             stroke: 'black',
             strokeWidth: 1
+        });
+
+        // Fence
+        fence = new Kinetic.Rect({
+            x:stage.getWidth() / 2,
+            y:400,
+            width:30,
+            height:200,
+            fill:'blue',
+            stroke: 'black',
+            strokeWidth: 4
         });
 
         // Debug Text
@@ -106,11 +121,14 @@
             fill: 'green'
         });
 
+        
+
         layer.add(debugTxt);
 
 
         // add the shape to the layer
         layer.add(ball);
+        layer.add(fence);
 
         stage.add(layer);
     }
@@ -215,7 +233,7 @@
 
                 if(ball.getY() > gHeight){
                     //ballMode = 'stop';
-                    ball.setX(stage.getWidth() / 2-100);
+                    ball.setX(200);
                     ball.setY(0);
                     speed_x = 0;
                     speed_y = 0;
@@ -229,22 +247,24 @@
 
     $.isCollision = function(x1,y1){
 
-        debugTxt.setText("kimages : "+numUser);
+        //debugTxt.setText("kimages : "+numUser);
         for(i = 0 ; i < numUser ; i++){
             var x2 = kimages[i].getX() - (kimages[i].getWidth() / 2);
             var x3 = kimages[i].getX() + (kimages[i].getWidth() / 2);
 
             var y2 = kimages[i].getY() - (kimages[i].getHeight() / 2);
             var y3 = kimages[i].getY() + (kimages[i].getHeight() / 2);
+            
+            
 
-            //debugTxt.setText("x2 : "+x2 +"/x3 : "+x3+"/y2:"+y2+"/y3:"+y3+"x1:"+x1+"y1:"+y1);
+            console.log("y1:"+y1+"x2 : "+x2 +"/x3 : "+x3+"/y2:"+y2+"/y3:"+y3+"x1:"+x1);
 
-            if((x2 <= x1 && x1 <= x3) && (y2 <= y1 && y1 <= y3)){
-                debugTxt.setText("collision!"+speed_x);
+            if((x2 <= x1 && x1 <= x3) || (y2 <= y1 && y1 <= y3)){
+                //debugTxt.setText("collision!"+speed_x);
                 speed_y = -50;
             }else{
 
-                debugTxt.setText("no collision");
+                //debugTxt.setText("no collision");
             }
         }
 
