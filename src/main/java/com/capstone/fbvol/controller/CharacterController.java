@@ -65,6 +65,12 @@ public class CharacterController {
         return "Game";
     }
 
+    @RequestMapping(value = "Game2", method = {RequestMethod.GET,RequestMethod.POST})
+    public String game2(ModelMap model) {
+        //model.addAttribute("users", users);
+        return "FBVOL_FBCLIENT";
+    }
+
     @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)
     public @ResponseBody Msg setCharacterXYInJSON(@PathVariable String Query) {
         int flag = 0;

@@ -1,36 +1,123 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-
+<!DOCTYPE HTML>
 <html>
 <head>
-
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
 </head>
 
 <body>
-<canvas id='canvas' width='600' height='400'>
-    Canvas not supported
-</canvas>
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script>
+<div id="container"></div>
+
+<script type="text/javascript" src="/FBVOL_SERVER/resources/js/jquery-2.1.0.min.js" th:src="@{/resources/js/jquery-2.1.0.min.js}"></script>
+<script type="text/javascript" src="/FBVOL_SERVER/resources/js/kinetic-v5.1.0.js" th:src="@{/resources/js/kinetic-v5.1.0.js"></script>
+<script defer="defer">
 
     var i = 0;
 
-    var tempData = null;
+    var gWidth = 800;
+    var gHeight = 600;
 
-    var timer = setInterval(function () {
-        //alert('Timer Start');
-        //clearInterval(timer);
+    var userData = {};
 
-        $.callAjax();
-    }, 100);
+    var kimages = {};
 
-    $.clearCanvas = function() {
-        var canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
+    var profile_pic = {
+        prugio: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/c35.35.443.443/s160x160/484064_384552564940063_232438685_n.jpg',
+        izie: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p160x160/10256603_833148846699423_3550347983526187_n.jpg'
+    };
 
-        context.clearRect(0,0,600,400);
+    var stage = null;
+
+    var layer = null;
+    var ball = null;
+
+    var ballMode = 'move';
+
+    // Gravity
+    var grav_x = 0;
+    var grav_y = 8;
+
+    // Start Point
+    var start_x;
+    var start_y;
+
+    // BAll Speed
+    var speed_x;
+    var speed_y;
+
+    var debugTxt = null;
+    
+    var numUser = 0;
+
+
+    /*var timer = setInterval(function () {
+     //alert('Timer Start');
+     //clearInterval(timer);
+
+     $.callAjax();
+     }, 1000);*/
+
+    $.Init = function() {
+        $.initStage();
+        $.initRes();
+        $.initVar();
+        $.initAnim();
+
+        $.gameStart();
+
+        //$.callAjax();
+    }
+
+    $.initStage = function() {
+        stage = new Kinetic.Stage({
+            container: 'container',
+            width: gWidth,
+            height: gHeight
+        });
+
+        layer = new Kinetic.Layer();
+    }
+
+    $.initRes = function() {
+        // Ball
+        ball = new Kinetic.Circle({
+            x: stage.getWidth() / 2-100,
+            y: 0,
+            radius: 30,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 1
+        });
+
+        // Debug Text
+        debugTxt = new Kinetic.Text({
+            x: 0,
+            y: 15,
+            text: 'Debug',
+            fontSize: 10,
+            fontFamily: 'Calibri',
+            fill: 'green'
+        });
+
+        layer.add(debugTxt);
+
+
+        // add the shape to the layer
+        layer.add(ball);
+
+        stage.add(layer);
+    }
+
+    $.initVar = function() {
+        speed_x = 0;
+        speed_y = 0;
     }
 
     $.callAjax = function() {
@@ -43,54 +130,119 @@
                 alert("Ajax Loading Error");
             },
             success: function(data){
+                var images = {};
+                var k = 0;
                 //var results = $.parseJSON(data);
+                for(var i = 0 ; i < data.length ; i++){
+                    var oUser = data[i];
 
-                if($.checkRelease(data)){
-                    $.clearCanvas();
-                    for(var i = 0 ; i < data.length ; i++){
-                        var oUser = data[i];
-                        $.addImg(oUser.x,oUser.y,oUser.id);
+                    if(numUser != 0){
+                        kimages[i].setX(oUser.x);
+                        kimages[i].setY(oUser.y);
+                    }else{
+                        //$.addImg(oUser.x,oUser.y,oUser.id);
+                        images[oUser.id] = new Image();
+
+                        images[oUser.id].onload = function() {
+                            //alert(images[numUser].src);
+                            kimages[numUser] = new Kinetic.Image({
+                                image: images[data[numUser].id],
+                                x: data[numUser].x,
+                                y: data[numUser].y
+                            });
+
+                            kimages[numUser].setOffset(kimages[numUser].getWidth() / 2, kimages[numUser].getHeight() / 2);
+
+                            //alert(data[numUser].id+"/"+data[numUser].x+"/"+data[numUser].y);
+                            layer.add(kimages[numUser]);
+
+                            numUser++;
+                            stage.add(layer);
+                        };
+
+                        images[oUser.id].src = profile_pic[oUser.id];
                     }
+
                 }
 
-                tempData = data;
+
+
+
+                // finally, we need to redraw the layer hit graph
+                layer.drawHit();
+
+
+
+                /*
+                 if($.checkRelease(data)){
+                 $.clearCanvas();
+                 for(var i = 0 ; i < data.length ; i++){
+                 var oUser = data[i];
+                 $.addImg(oUser.x,oUser.y,oUser.id);
+                 }
+                 }*/
+
+                userData = data;
+
+
             }
 
         });
     };
 
-    $.checkRelease = function(data) {
-        if(tempData != null){
-            for(var i = 0 ; i < data.length ; i++){
-                var oUser = data[i];
-                if(tempData[i].x != data[i].x)  return true;
-                if(tempData[i].y != data[i].y)  return true;
+    $.initAnim = function() {
+
+        anim = new Kinetic.Animation(function(frame){
+            $.callAjax();
+            if (ballMode == 'move'){
+
+                var tmod = (frame.timeDiff) * 0.005;
+
+                // 속도 만큼 공을 움직인다.
+                ball.setX(ball.getX() + (speed_x * tmod));
+                ball.setY(ball.getY() + (speed_y * tmod));
+
+                // 속도가 중력가속도의 영향을 받는다.
+                speed_x += grav_x * tmod;
+                speed_y += grav_y * tmod;
+
+                if(ball.getY() > gHeight)       ballMode = 'stop';
+
+                $.isCollision(ball.getX(),ball.getY());
             }
-        }else   return true;
-        return false;
+
+        },layer);
     }
 
-    $.addImg = function(x,y,txt) {
-        var canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
+    $.isCollision = function(x1,y1){
 
-        context.lineJoin = 'round';
-        context.lineWidth = 30;
+        debugTxt.setText("kimages : "+numUser);
+        for(i = 0 ; i < numUser ; i++){
+            var x2 = kimages[i].getX() - (kimages[i].getWidth() / 2);
+            var x3 = kimages[i].getX() + (kimages[i].getWidth() / 2);
 
-        context.font = '24px Helvetica';
-        context.fillText(txt, x, y);
+            var y2 = kimages[i].getY() - (kimages[i].getHeight() / 2);
+            var y3 = kimages[i].getY() + (kimages[i].getHeight() / 2);
 
+            //debugTxt.setText("x2 : "+x2 +"/x3 : "+x3+"/y2:"+y2+"/y3:"+y3+"x1:"+x1+"y1:"+y1);
 
-        var image = new Image();
+            if((x2 <= x1 && x1 <= x3) && (y2 <= y1 && y1 <= y3)){
+                debugTxt.setText("collision!"+speed_x);
+                speed_y = -10;
+            }else{
 
-        image.onload = function() {
-            context.drawImage(image, x, y);
+                debugTxt.setText("no collision");
+            }
         }
 
-        image.src = "http://megaicons.net/static/img/icons_sizes/40/110/128/pikachu-icon.png";
-        i++;
     }
 
+    $.gameStart = function() {
+        anim.start();
+    }
+
+    $.Init
+            ();
 </script>
 </body>
 </html>
