@@ -1,15 +1,15 @@
 package com.capstone.fbvol.common.util;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 예외를 받아 적절한 메세지로 변환하여 리턴해주는 클래스
  */
 public class ExceptionHandler {
 
-	private static Logger logger = LogManager.getLogger(ExceptionHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 	
 	public static String getErrorMessage(Exception e) {
 		

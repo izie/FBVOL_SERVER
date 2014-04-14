@@ -4,8 +4,8 @@ import com.capstone.fbvol.common.util.CookieUtil;
 import com.capstone.fbvol.common.util.date.DateUtil;
 import com.capstone.fbvol.model.Entity;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  */
 public class StringUtil {
 
-    private static Logger logger = LogManager.getLogger(StringUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(StringUtil.class);
 
 
     /**

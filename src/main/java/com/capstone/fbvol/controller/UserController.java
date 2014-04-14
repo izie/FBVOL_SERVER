@@ -1,6 +1,10 @@
 package com.capstone.fbvol.controller;
 
-import com.capstone.fbvol.model.Character;
+/*
+ * File : UserController.java
+ * Description :
+ *
+ */
 import com.capstone.fbvol.model.Msg;
 import com.capstone.fbvol.model.User;
 import com.capstone.fbvol.service.UserService;
@@ -12,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(value = "/User/")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    ArrayList<Character> users = new ArrayList<Character>();
+    List<User> users = new ArrayList<User>();
 
     private final UserService userService;
 
@@ -29,28 +34,26 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+        this.users = userService.getUsers();
+
+        // Test Data
+        users.get(0).setX(100);
+        users.get(0).setY(100);
+
+        users.get(1).setX(300);
+        users.get(1).setY(100);
     }
 
     @RequestMapping(value = "Init", method = RequestMethod.GET)
     public @ResponseBody Msg setDefault() {
         Msg msg = new Msg("1000","Done");
-        List<User> user3 = userService.getUsers();
-        System.out.println("user 1's toke : " + user3.get(0).getToken());
-        Character user = new Character();
 
-        user.setX(100);
-        user.setY(100);
-        user.setName("Matthew");
-        user.setId("izie");
-        users.add(user);
+        // Test Data
+        users.get(0).setX(100);
+        users.get(0).setY(100);
 
-        Character user2 = new Character();
-
-        user2.setX(300);
-        user2.setY(100);
-        user2.setName("SangTae");
-        user2.setId("prugio");
-        users.add(user2);
+        users.get(1).setX(300);
+        users.get(1).setY(100);
 
         return msg;
     }
@@ -77,30 +80,6 @@ public class UserController {
         return deferredResult;
     }
 
-    @RequestMapping(method=RequestMethod.POST)
-    @ResponseBody
-    public void postUsers(@RequestParam String x, @RequestParam String y, @RequestParam String id) {
-        Character chr = new Character();
-        chr.setX(Integer.parseInt(x));
-        chr.setY(Integer.parseInt(y));
-        chr.setId(id);
-        this.userService.setUsers(chr);
-
-        // Update all chat requests as part of the POST request
-        // See Redis branch for a more sophisticated, non-blocking approach
-
-        for (Map.Entry<DeferredResult<List<Character>>, Integer> entry : this.userRequests.entrySet()) {
-            List<Character> messages = this.userService.getUsers(entry.getValue());
-            entry.getKey().setResult(messages);
-        }
-    }
-
-    @RequestMapping(value = "getUser", method = RequestMethod.GET)
-    public @ResponseBody ArrayList<Character> getUser() {
-
-        return users;
-    }
-
     @RequestMapping(value = "printUser", method = RequestMethod.GET)
     public String printWelcome2(ModelMap model) {
         model.addAttribute("users", users);
@@ -113,19 +92,31 @@ public class UserController {
         return "printUser";
     }
 
+    @RequestMapping(value = "Game", method = {RequestMethod.GET,RequestMethod.POST})
+    public String game(ModelMap model, HttpServletRequest req) {
+        String url = req.getRequestURI();
+        System.out.print("url : "+url);
+        if(url.indexOf("1.209.21.74") != -1){
+            model.addAttribute("url", "/FBVOL_SERVER");
+        }else{
+            model.addAttribute("url", "");
+        }
+        return "Game";
+    }
+
     @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)
     public @ResponseBody Msg setCharacterXYInJSON(@PathVariable String Query) {
         int flag = 0;
-        Character tchr = new Character();
+        User tuser = new User();
         Msg msg = new Msg("1000","Done");
-        tchr.setMoveDataFromJson(Query);
-        Iterator<Character> itr = users.iterator();
+        tuser.setMoveDataFromJson(Query);
+        Iterator<User> itr = users.iterator();
         while (itr.hasNext()) {
-            Character element = itr.next();
-            if(element.getId().equals(tchr.getId())){
+            User element = itr.next();
+            if(element.getId().equals(tuser.getId())){
                 flag = 1;
-                element.setX(tchr.getX());
-                element.setY(tchr.getY());
+                element.setX(tuser.getX());
+                element.setY(tuser.getY());
             }
         }
 
@@ -136,4 +127,9 @@ public class UserController {
         return msg;
     }
 
+    @RequestMapping(value = "getUser", method = RequestMethod.GET)
+    public @ResponseBody List<User> getUser() {
+
+        return users;
+    }
 }

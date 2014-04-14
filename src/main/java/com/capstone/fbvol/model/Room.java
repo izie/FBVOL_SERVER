@@ -18,9 +18,9 @@ import java.util.HashMap;
  */
 public class Room {
 
-    private Character master;
-    private Character rival;
-    private ArrayList<Character> observers;
+    private User master;
+    private User rival;
+    private ArrayList<User> observers;
     private String room_id;
     private String room_title;
     private boolean isLock;
@@ -36,7 +36,7 @@ public class Room {
         try {
             m = om.readValue(jsonStr, new TypeReference<HashMap<String, String>>(){});
 
-            this.master.setFromJSON2(m.get("MASTER"));
+            //this.master.setFromJSON2(m.get("MASTER"));
             //this.isLock = m.get("ISLOCK");  // boolean
             this.room_id = m.get("ROOM_ID");
             this.room_title = m.get("ROOM_TITLE");
@@ -57,8 +57,8 @@ public class Room {
         HashMap<String, String> m;
         try {
             m = om.readValue(jsonStr, new TypeReference<HashMap<String, String>>(){});
-            Character observer = new Character();
-            observer.setFromJSON2(m.get("OBSERVER"));
+            User observer = new User();
+            //observer.setFromJSON2(m.get("OBSERVER"));
             this.observers.add(observer);
 
         } catch (JsonParseException e) {
@@ -76,7 +76,7 @@ public class Room {
         HashMap<String, String> m;
         try {
             m = om.readValue(jsonStr, new TypeReference<HashMap<String, String>>(){});
-            rival.setFromJSON2(m.get("RIVAL"));
+            //rival.setFromJSON2(m.get("RIVAL"));
 
         } catch (JsonParseException e) {
             // TODO Auto-generated catch block
@@ -96,26 +96,26 @@ public class Room {
     public void setRoomState(boolean roomState) {
         this.roomState = roomState;
     }
-    public Character getRival() {
+    public User getRival() {
         return rival;
     }
 
-    public void setRival(Character rival) {
+    public void setRival(User rival) {
         this.rival = rival;
     }
-    public Character getMaster() {
+    public User getMaster() {
         return master;
     }
 
-    public void setMaster(Character master) {
+    public void setMaster(User master) {
         this.master = master;
     }
 
-    public ArrayList<Character> getObserver() {
+    public ArrayList<User> getObserver() {
         return observers;
     }
 
-    public void setObserver(ArrayList<Character> observer) {
+    public void setObserver(ArrayList<User> observer) {
         this.observers = observer;
     }
 

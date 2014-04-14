@@ -2,8 +2,8 @@ package com.capstone.fbvol.common.util;
 
 import com.capstone.fbvol.common.util.text.StringUtil;
 import com.capstone.fbvol.model.Entity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 게시판 관련 유틸 클래스
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class BoardUtil {
 
-	private Logger logger = LogManager.getLogger(BoardUtil.class);
+	private Logger logger = LoggerFactory.getLogger(BoardUtil.class);
 
 	private static BoardUtil boardUtil = new BoardUtil();
 
