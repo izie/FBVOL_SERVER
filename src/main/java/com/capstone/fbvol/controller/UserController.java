@@ -110,13 +110,11 @@ public class UserController {
         User tuser = new User();
         Msg msg = new Msg("1000","Done");
         tuser.setMoveDataFromJson(Query);
-        Iterator<User> itr = users.iterator();
-        while (itr.hasNext()) {
-            User element = itr.next();
-            if(element.getId().equals(tuser.getId())){
+        for(User usr : users){
+            if(usr.getId().equals(tuser.getId())){
                 flag = 1;
-                element.setX(tuser.getX());
-                element.setY(tuser.getY());
+                usr.setX(tuser.getX());
+                usr.setY(tuser.getY());
             }
         }
 
