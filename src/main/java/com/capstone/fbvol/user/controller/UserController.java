@@ -99,6 +99,7 @@ public class UserController {
     @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)
     public @ResponseBody Msg setCharacterXYInJSON(@PathVariable String Query) {
         int flag = 0;
+        logger.debug("Query : "+Query);
         User tuser = new User();
         Msg msg = new Msg("1000","Done");
         tuser.setMoveDataFromJson(Query);

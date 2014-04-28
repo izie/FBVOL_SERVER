@@ -33,6 +33,9 @@
         tkdxo0624: 'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/p160x160/10256603_833148846699423_3550347983526187_n.jpg'
     };
 
+    var bg_pic = "http://wsp.wooribank.com/download/0008830890_041/0008830890_18467.JPG";
+    var bgimage = null;
+
     var stage = null;
 
     var layer = null;
@@ -55,7 +58,7 @@
 
     // Gravity
     var grav_x = 0;
-    var grav_y = 8;
+    var grav_y = 9;
 
     // Start Point
     var start_x;
@@ -101,8 +104,8 @@
     $.initRes = function() {
         // Ball
         ball = new Kinetic.Circle({
-            x: 200,
-            y: 0,
+            x: 150,
+            y: 50,
             radius: 30,
             fill: 'red',
             stroke: 'black',
@@ -115,7 +118,7 @@
         fence = new Kinetic.Rect({
             x:stage.getWidth() / 2,
             y:400,
-            width:30,
+            width:10,
             height:200,
             fill:'blue',
             stroke: 'black',
@@ -139,7 +142,7 @@
             text: '0',
             fontSize: 30,
             fontFamily: 'Calibri',
-            fill: 'black'
+            fill: 'white'
         });
 
         // ScoreBoard
@@ -149,7 +152,7 @@
             text: '0',
             fontSize: 30,
             fontFamily: 'Calibri',
-            fill: 'black'
+            fill: 'white'
         });
 
         // Debug Text
@@ -162,19 +165,35 @@
             fill: 'green'
         });
 
-        
+        bgimage = new Image();
 
-        layer.add(debugTxt);
+        var imageObj = new Image();
+        imageObj.onload = function() {
+            var yoda = new Kinetic.Image({
+                x: 0,
+                y: 0,
+                image: imageObj,
+                width: 800,
+                height: 600
+            });
+
+            // add the shape to the layer
+            layer.add(yoda);
+            layer.add(debugTxt);
 
 
-        // add the shape to the layer
-        layer.add(ball);
-        layer.add(fence);
-        layer.add(scoreBoard_1);
-        layer.add(scoreBoard_2);
-        layer.add(ground);
+            // add the shape to the layer
+            layer.add(ball);
+            layer.add(fence);
+            layer.add(scoreBoard_1);
+            layer.add(scoreBoard_2);
+            layer.add(ground);
 
-        stage.add(layer);
+            stage.add(layer);
+        };
+        imageObj.src = bg_pic;
+
+
     }
 
     $.initVar = function() {
@@ -201,7 +220,7 @@
                     if(numUser != 0){
                         kimages[i].setX(oUser.x);
                         kimages[i].setY(oUser.y);
-                        kimages[i].setOffset(kimages[numUser].getWidth() / 2, kimages[numUser].getHeight() / 2);
+                        kimages[i].setOffset(40, 40);
                     }else{
                         //$.addImg(oUser.x,oUser.y,oUser.id);
                         images[oUser.id] = new Image();
@@ -212,10 +231,12 @@
                                 image: images[data[numUser].id],
                                 x: data[numUser].x,
                                 y: data[numUser].y,
+                                width:80,
+                                height:80,
                                 draggable: true
                             });
 
-                            kimages[numUser].setOffset(kimages[numUser].getWidth() / 2, kimages[numUser].getHeight() / 2);
+                            kimages[numUser].setOffset(40, 40);
 
                             //alert(data[numUser].id+"/"+data[numUser].x+"/"+data[numUser].y);
                             layer.add(kimages[numUser]);
@@ -277,28 +298,40 @@
                 speed_y += grav_y * tmod;
 
                 // Boundary Check
-                if(ball.getX() <=30 || ball.getX() >= 770){
-                    speed_x = speed_x * -1;
+                if(ball.getX() <=30){
+                    if(speed_x < 0)
+                        speed_x = speed_x * -1;
 
                 }
+                if(ball.getX() >= 770){
+                    if(speed_x > 0)
+                        speed_x = speed_x * -1;
 
+                }
+                if(ball.getY() <= 30){
+                    if(speed_y < 0)
+                        speed_y = speed_y * -1;
+
+                }
+                debugTxt.setText("A : "+score_A+"B : "+score_B);
                 if(ball.getY() > gHeight){
                     //ballMode = 'stop';
-                    ball.setX(200);
-                    ball.setY(0);
+                    if(ball.getX() < 400){
+                        score_B++;
+                        scoreBoard_2.setText(score_B);
+                    }else{
+                        score_A++;
+                        scoreBoard_1.setText(score_A);
+                    }
+                    ball.setX(150);
+                    ball.setY(50);
 
 
                     speed_x = 0;
                     speed_y = 0;
 
 
-                    if(ball.getX() < 400){
-                        score_B++;
-                        scoreBoard_2.setText(""+score_B);
-                    }else{
-                        score_A++;
-                        scoreBoard_1.setText(""+score_A);
-                    }
+
                 }
 
                 $.isCollision(ball.getX(),ball.getY()); // 사람체크
@@ -312,21 +345,21 @@
 
         //debugTxt.setText("kimages : "+numUser);
         for(i = 0 ; i < numUser ; i++){
-            var x2 = kimages[i].getX() - (kimages[i].getWidth() / 2);
-            var x3 = kimages[i].getX() + (kimages[i].getWidth() / 2);
+            var x2 = kimages[i].getX();
+            var x3 = kimages[i].getX() +80;
 
-            var y2 = kimages[i].getY() - (kimages[i].getHeight() / 2);
-            var y3 = kimages[i].getY() + (kimages[i].getHeight() / 2);
+            var y2 = kimages[i].getY();
+            var y3 = kimages[i].getY() +80;
             
             
 
-            debugTxt.setText("x : "+speed_x);
+            //debugTxt.setText("x : "+speed_x);
 
             if((x2 <= x1 && x1 <= x3) && (y2 <= y1 && y1 <= y3)){
-                debugTxt.setText("collision!"+speed_x);
+                //debugTxt.setText("collision!"+speed_x);
                 speed_y = -50;
 
-                speed_x = (x1 - kimages[i].getX()) * 0.5;
+                speed_x = (x1 - (kimages[i].getX()+40)) * 1.5;
             }else{
 
                 //debugTxt.setText("no collision");
@@ -337,17 +370,25 @@
 
     $.isCollision2 = function(x1,y1){
 
-        var x2 = fence.getX() - 15;
-        var x3 = fence.getX() + 15;
+        var x2 = fence.getX() ;
+        var x3 = fence.getX() +10;
 
-        var y2 = fence.getY() - 100;
-        var y3 = fence.getY() + 100;
+        var y2 = fence.getY() ;
+        var y3 = fence.getY() + 200;
 
-        if((x2 <= x1 && x1 <= x3) && (y2 <= y1 && y1 <= y3)){
-            debugTxt.setText("collision!"+speed_x);
+        /*if(((x2 <= x1 && x1 < fence.getX()) || ((fence.getX() < x1 && x1 <= x3)) && (y2 < y1 && y1 <= y3))){
+            speed_x = (x1 - fence.getX()) * 0.8;
+        }
+        else{
             speed_y = -50;
 
-            speed_x = (x1 - fence.getX()) * 0.5;
+        }      x2 = 왼쪽벽 x3가 오른쪽 벽     y2가 네트 위
+        */
+        if((x2 <= x1 && x1 <= x3) && (y2  <= y1 && y1 <= y3)){
+            debugTxt.setText("collision!"+speed_x);
+            speed_x = speed_x * -0.9;
+            speed_y = -20;
+
         }else{
 
             //debugTxt.setText("no collision");
