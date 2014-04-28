@@ -43,7 +43,7 @@
     </bean>
 
 	<bean id="UserInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="com.capstone.fbvol.mapper.UserInfoMapper"/>
+        <property name="mapperInterface" value="com.capstone.fbvol.user.dao.UserInfoMapper"/>
   		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

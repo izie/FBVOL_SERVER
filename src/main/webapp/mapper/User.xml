@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
- namespace="com.capstone.fbvol.mapper.UserInfoMapper">
+ namespace="com.capstone.fbvol.user.dao.UserInfoMapper">
      <select id="selectUserOne" parameterType="String" resultType="User">
         SELECT
             *

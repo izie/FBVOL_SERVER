@@ -1,4 +1,4 @@
-package com.capstone.fbvol.mapper;
+package com.capstone.fbvol.user.dao;
 
 import com.capstone.fbvol.model.Entity;
 import com.capstone.fbvol.model.User;

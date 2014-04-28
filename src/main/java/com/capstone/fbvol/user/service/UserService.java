@@ -1,4 +1,4 @@
-package com.capstone.fbvol.service;
+package com.capstone.fbvol.user.service;
 
 import com.capstone.fbvol.model.*;
 

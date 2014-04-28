@@ -1,4 +1,4 @@
-package com.capstone.fbvol.controller;
+package com.capstone.fbvol.user.controller;
 
 /*
  * File : UserController.java
@@ -8,7 +8,7 @@ package com.capstone.fbvol.controller;
 
 import com.capstone.fbvol.model.Msg;
 import com.capstone.fbvol.model.User;
-import com.capstone.fbvol.service.UserService;
+import com.capstone.fbvol.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,18 +94,6 @@ public class UserController {
     public String printWelcome3(ModelMap model) {
         model.addAttribute("users", users);
         return "printUser";
-    }
-
-    @RequestMapping(value = "Game", method = {RequestMethod.GET,RequestMethod.POST})
-    public String game(ModelMap model, HttpServletRequest req) {
-        String url = req.getRequestURI();
-        System.out.print("url : "+url);
-        if(url.indexOf("1.209.21.74") != -1){
-            model.addAttribute("url", "/FBVOL_SERVER");
-        }else{
-            model.addAttribute("url", "");
-        }
-        return "Game";
     }
 
     @RequestMapping(value = "Move/{Query}", method = RequestMethod.GET)

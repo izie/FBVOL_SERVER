@@ -10,9 +10,17 @@
 
 
     <context:component-scan base-package="com.capstone.fbvol"/>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven>
+        <mvc:async-support default-timeout="2500" task-executor="executor">
+
+        </mvc:async-support>
+    </mvc:annotation-driven>
+
+    <bean id="executor" class="org.springframework.scheduling.concurrent.ConcurrentTaskExecutor" />
 
     <mvc:resources mapping="/resources/**" location="resources/" />
+
+
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>

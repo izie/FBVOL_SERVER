@@ -1,6 +1,6 @@
-package com.capstone.fbvol.service;
+package com.capstone.fbvol.user.service;
 
-import com.capstone.fbvol.mapper.UserInfoMapper;
+import com.capstone.fbvol.user.dao.UserInfoMapper;
 import com.capstone.fbvol.model.Entity;
 import com.capstone.fbvol.model.User;
 import org.slf4j.Logger;
